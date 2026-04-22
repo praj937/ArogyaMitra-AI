@@ -35,15 +35,27 @@ if option == "Chatbot (PS1: Compliance)":
         else:
             with st.spinner("Processing clinical summary..."):
                 prompt = f"""
-                Act as a medical classifier for the NHA. 
-                1. Extract Symptoms, Duration, and Severity.
-                2. Suggest the Standard Treatment Guideline (STG) action.
-                3. Classify this into a 'Clinical Summary' format.
+                Act as a Clinical Data Architect for the National Health Authority. 
+                Analyze the following patient input and output a strictly structured JSON summary.
+
                 Input: {user_query}
+
+                JSON Structure:
+                {{
+                  "clinical_data": {{
+                    "symptoms": ["list here"],
+                    "duration": "extract here",
+                    "severity": "Low/Medium/High"
+                  }},
+                  "compliance": {{
+                    "stg_action": "What the Standard Treatment Guideline suggests",
+                    "classification": "Inpatient/Outpatient/Emergency"
+                  }}
+                }}
                 """
                 response = model.generate_content(prompt)
-                st.subheader("Generated Clinical Record")
-                st.write(response.text)
+                st.subheader("Structured Clinical Record (JSON)")
+                st.code(response.text, language='json') # This makes it look like real code!
 
 # --- MODULE 2: FORGERY DETECTION (PS3) ---
 elif option == "Forensics (PS3: Forgery Detection)":
