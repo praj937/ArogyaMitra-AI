@@ -9,6 +9,11 @@ from PIL import Image, ImageChops
 # Replace the old genai.configure line with this:
 genai.configure(api_key=st.secrets["GEMINI_KEY"])
 model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+# This will show you in the "Manage App" logs if the key is actually loading
+if "GEMINI_KEY" not in st.secrets:
+    st.error("Secret Key is missing from Streamlit Cloud Settings!")
+else:
+    st.success("API Key detected in secrets.")
 
 st.set_page_config(page_title="ArogyaMitra AI", page_icon="🩺")
 st.title("🩺 ArogyaMitra: Smart Health Ecosystem")
