@@ -1,5 +1,5 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 import cv2
 import numpy as np
 from PIL import Image, ImageChops
@@ -7,8 +7,8 @@ from PIL import Image, ImageChops
 # --- CONFIGURATION ---
 # Replace with your actual Gemini API Key from Google AI Studio
 # Replace the old genai.configure line with this:
-genai.configure(api_key=st.secrets["GEMINI_KEY"])
-model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+# This creates a modern connection to Google's servers
+client = genai.Client(api_key=st.secrets["GEMINI_KEY"])
 # This will show you in the "Manage App" logs if the key is actually loading
 if "GEMINI_KEY" not in st.secrets:
     st.error("Secret Key is missing from Streamlit Cloud Settings!")
@@ -58,9 +58,16 @@ if option == "Chatbot (PS1: Compliance)":
                   }}
                 }}
                 """
-                response = model.generate_content(prompt)
-                st.subheader("Structured Clinical Record (JSON)")
-                st.code(response.text, language='json') # This makes it look like real code!
+                with st.spinner("Processing clinical summary..."):
+            # We call the client directly now
+            response = client.models.generate_content(
+                model='gemini-1.5-flash', 
+                contents=prompt
+            )
+            
+            st.subheader("Structured Clinical Record (JSON)")
+            # The output text is accessed the same way
+            st.code(response.text, language='json')
 
 # --- MODULE 2: FORGERY DETECTION (PS3) ---
 elif option == "Forensics (PS3: Forgery Detection)":
