@@ -38,7 +38,15 @@ if option == "Chatbot (PS1: Compliance)":
         if any(word in user_query.lower() for word in emergency_keywords):
             st.error("🚨 EMERGENCY DETECTED: Please visit the nearest hospital immediately.")
         else:
-            with st.spinner("Processing clinical summary..."):
+             with st.spinner("Processing clinical summary..."):
+            # These lines MUST be pushed further to the right
+            response = client.models.generate_content(
+                model='gemini-1.5-flash', 
+                contents=prompt
+            )
+            
+            st.subheader("Structured Clinical Record (JSON)")
+            st.code(response.text, language='json')
                 prompt = f"""
                 Act as a Clinical Data Architect for the National Health Authority. 
                 Analyze the following patient input and output a strictly structured JSON summary.
