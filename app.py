@@ -56,7 +56,7 @@ if option == "Chatbot (PS1: Compliance)":
                 }}
                 """
                 response = client.models.generate_content(
-                    model='gemini-1.5-flash',
+                    model='gemini-1.5-flash-8b',
                     contents=prompt
                 )
                 
@@ -104,7 +104,7 @@ elif option == "Forensics (PS3: Forgery Detection)":
         with st.spinner("Analyzing document integrity..."):
             forensic_prompt = "Analyze this medical document for signs of forgery, inconsistent fonts, or tampered dates."
             response = client.models.generate_content(
-                model='gemini-1.5-flash',
+                model='gemini-1.5-flash-8b',
                 contents=[forensic_prompt, image]
             )
             st.subheader("Forensic Audit Report")
