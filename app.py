@@ -8,7 +8,7 @@ from PIL import Image, ImageChops
 # Replace with your actual Gemini API Key from Google AI Studio
 # Replace the old genai.configure line with this:
 genai.configure(api_key=st.secrets["GEMINI_KEY"])
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
 
 st.set_page_config(page_title="ArogyaMitra AI", page_icon="🩺")
 st.title("🩺 ArogyaMitra: Smart Health Ecosystem")
